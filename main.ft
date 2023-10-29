@@ -1,0 +1,37 @@
+provider "google" {
+	project			= "exp-pg"
+}
+
+resource "google_cloud_run_service" "default" {
+	name			= "satoru-express-service"
+	location		= "asia-northeast1"
+
+	template {
+		spec {
+			containers {
+				image	= "asia-northeast1-docker.pkg.dev/exp-pg/docker/express:latest"
+
+				resources {
+					limits	= {
+						cpu		= "1000m"	# 1 CPU core
+						memory	= "256Mi"	# 256 MiB of memory
+					}
+				}
+			}
+		}
+	}
+
+	traffic {
+		percent			= 100
+		latest_revision	= true
+	}
+}
+
+resource "google_cloud_run_service_iam_member" "allow_unauthenticated" {
+	location	= google_cloud_run_service.default.location
+	project		= google_cloud_run_service.default.project
+	service		= google_cloud_run_service.default.name
+	role		= "roles/run.invoker"
+	member		= "allUsers"
+}
+

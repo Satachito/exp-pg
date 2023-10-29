@@ -1,0 +1,18 @@
+provider "google" {
+	region			= "asia-northeast1"
+	project			= "exp-pg"
+}
+
+resource "google_project_service" "cloud_run" {
+	service			= "run.googleapis.com"
+}
+
+resource "google_artifact_registry_repository" "docker" {
+	repository_id	= "docker"
+	format			= "DOCKER"
+	description		= "A docker repository"
+
+	depends_on		= [ google_project_service.cloud_run ]
+}
+
+
