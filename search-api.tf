@@ -1,4 +1,4 @@
-resource "null_resource" "" {
+resource "null_resource" "search_api" {
 	provisioner "local-exec" {
 		command = <<EOT
 			git clone https://github.com/Satachito/exp-pg.git
