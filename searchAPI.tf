@@ -1,19 +1,14 @@
 resource "null_resource" "clone_and_deploy" {
 	provisioner "local-exec" {
-		command = << EOD
+		command = <<EOT
 			git clone https://github.com/Satachito/exp-pg.git
 
 			cd exp-pg
-			
-			chmod +x deploy.sh
-			./deploy.sh
-
-			# 元のディレクトリに戻る
+			sh deploy.sh
 			cd ..
 
-			# クローンしたリポジトリのディレクトリを削除
-			rm -rf yourrepository
-		 EOD
+			rm -rf exp-pg
+		 EOT
 	}
 
 	triggers = {
