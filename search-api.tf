@@ -1,4 +1,4 @@
-resource "null_resource" "clone_and_deploy" {
+resource "null_resource" "" {
 	provisioner "local-exec" {
 		command = <<EOT
 			git clone https://github.com/Satachito/exp-pg.git
